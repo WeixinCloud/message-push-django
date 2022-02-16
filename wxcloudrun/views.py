@@ -1,6 +1,5 @@
 import json
 import logging
-import http.client
 import requests
 
 from django.http import JsonResponse, HttpResponse
@@ -39,6 +38,10 @@ def send_wxmsg(request):
     # 2 检查req body参数
     if request.body is None:
         return 'error'
+
+    # 3 检查来源参数
+    if 'HTTP_X_WX_SOURCE' not in request.META:
+        return ""
 
     # 3 组装请求微信参数
     wx_openid = request.META['HTTP_X_WX_OPENID']
